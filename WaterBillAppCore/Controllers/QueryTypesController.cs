@@ -53,7 +53,7 @@ namespace WaterBillAppCore.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SettingId,ChargeRate")] QueryType queryType)
+        public async Task<IActionResult> Create([Bind("QueryTypeId,Name")] QueryType queryType)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +85,7 @@ namespace WaterBillAppCore.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("SettingId,ChargeRate")] QueryType queryType)
+        public async Task<IActionResult> Edit(int id, [Bind("QueryTypeId,Name")] QueryType queryType)
         {
             if (id != queryType.QueryTypeId)
             {

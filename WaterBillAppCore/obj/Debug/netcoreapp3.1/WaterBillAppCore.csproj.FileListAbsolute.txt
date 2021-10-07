@@ -217,11 +217,6 @@ C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\obj\Debu
 C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\obj\Debug\netcoreapp3.1\WaterBillAppCore.pdb
 C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\obj\Debug\netcoreapp3.1\WaterBillAppCore.genruntimeconfig.cache
 C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\obj\Debug\netcoreapp3.1\WaterBillAppCore.csprojAssemblyReference.cache
-C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\obj\Debug\netcoreapp3.1\Razor\Views\QueryTypes\Create.cshtml.g.cs
-C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\obj\Debug\netcoreapp3.1\Razor\Views\QueryTypes\Delete.cshtml.g.cs
-C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\obj\Debug\netcoreapp3.1\Razor\Views\QueryTypes\Details.cshtml.g.cs
-C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\obj\Debug\netcoreapp3.1\Razor\Views\QueryTypes\Edit.cshtml.g.cs
-C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\obj\Debug\netcoreapp3.1\Razor\Views\QueryTypes\Index.cshtml.g.cs
 C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\obj\Debug\netcoreapp3.1\Razor\Views\Vats\Create.cshtml.g.cs
 C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\obj\Debug\netcoreapp3.1\Razor\Views\Vats\Delete.cshtml.g.cs
 C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\obj\Debug\netcoreapp3.1\Razor\Views\Vats\Details.cshtml.g.cs
@@ -237,3 +232,8 @@ C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\obj\Debu
 C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\obj\Debug\netcoreapp3.1\Razor\Views\Settings\Details.cshtml.g.cs
 C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\obj\Debug\netcoreapp3.1\Razor\Views\Settings\Edit.cshtml.g.cs
 C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\obj\Debug\netcoreapp3.1\Razor\Views\Settings\Index.cshtml.g.cs
+C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\obj\Debug\netcoreapp3.1\Razor\Views\QueryTypes\Create.cshtml.g.cs
+C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\obj\Debug\netcoreapp3.1\Razor\Views\QueryTypes\Delete.cshtml.g.cs
+C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\obj\Debug\netcoreapp3.1\Razor\Views\QueryTypes\Details.cshtml.g.cs
+C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\obj\Debug\netcoreapp3.1\Razor\Views\QueryTypes\Edit.cshtml.g.cs
+C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\obj\Debug\netcoreapp3.1\Razor\Views\QueryTypes\Index.cshtml.g.cs
