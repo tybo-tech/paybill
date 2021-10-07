@@ -1,0 +1,131 @@
+﻿@model WaterBillAppCore.ViewModel.BillViewModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h4>Pay your water bill in few minutes </h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create"  enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="PrevReading" class="control-label"></label>
+                <input asp-for="PrevReading" class="form-control" />
+                <span asp-validation-for="PrevReading" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CurrentReading" class="control-label"></label>
+                <input asp-for="CurrentReading" class="form-control" />
+                <span asp-validation-for="CurrentReading" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input asp-for="Photo" class="form-control" />
+
+                <label asp-for="Photo" class="control-label c2"></label>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+            @*<div class="form-group">
+            <label asp-for="Usage" class="control-label"></label>
+            <input asp-for="Usage" class="form-control" />
+            <span asp-validation-for="Usage" class="text-danger"></span>
+        </div>*@
+
+            @*<div class="form-group">
+            <label asp-for="Amount" class="control-label"></label>
+            <input asp-for="Amount" class="form-control" />
+            <span asp-validation-for="Amount" class="text-danger"></span>
+        </div>
+
+            *@
+            @*<div class="form-group">
+            <label asp-for="CustomerId" class="control-label"></label>
+            <input asp-for="CustomerId" class="form-control" />
+            <span asp-validation-for="CustomerId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="CustomerName" class="control-label"></label>
+            <input asp-for="CustomerName" class="form-control" />
+            <span asp-validation-for="CustomerName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="CustomerAddress" class="control-label"></label>
+            <input asp-for="CustomerAddress" class="form-control" />
+            <span asp-validation-for="CustomerAddress" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="CustomerPhone" class="control-label"></label>
+            <input asp-for="CustomerPhone" class="form-control" />
+            <span asp-validation-for="CustomerPhone" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="CustomerEmail" class="control-label"></label>
+            <input asp-for="CustomerEmail" class="form-control" />
+            <span asp-validation-for="CustomerEmail" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="BillNo" class="control-label"></label>
+            <input asp-for="BillNo" class="form-control" />
+            <span asp-validation-for="BillNo" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Amount" class="control-label"></label>
+            <input asp-for="Amount" class="form-control" />
+            <span asp-validation-for="Amount" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="AmountPaid" class="control-label"></label>
+            <input asp-for="AmountPaid" class="form-control" />
+            <span asp-validation-for="AmountPaid" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="PaymentDate" class="control-label"></label>
+            <input asp-for="PaymentDate" class="form-control" />
+            <span asp-validation-for="PaymentDate" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="DueDate" class="control-label"></label>
+            <input asp-for="DueDate" class="form-control" />
+            <span asp-validation-for="DueDate" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="CreatedDate" class="control-label"></label>
+            <input asp-for="CreatedDate" class="form-control" />
+            <span asp-validation-for="CreatedDate" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="LastModifiedDate" class="control-label"></label>
+            <input asp-for="LastModifiedDate" class="form-control" />
+            <span asp-validation-for="LastModifiedDate" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="BillStatus" class="control-label"></label>
+            <input asp-for="BillStatus" class="form-control" />
+            <span asp-validation-for="BillStatus" class="text-danger"></span>
+        </div>*@
+            @section Scripts {
+                <script>
+            $(document).ready(function () {
+                $('.custom-file-input').on("change", function () {
+                    var fileName = $(this).val().split("\\").pop();
+                    $(this).next('.c2').html(fileName);
+                });
+            });
+                </script>
+            }
+
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
