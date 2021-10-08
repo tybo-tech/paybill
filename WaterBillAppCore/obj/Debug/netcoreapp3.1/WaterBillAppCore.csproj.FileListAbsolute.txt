@@ -159,9 +159,6 @@ C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\bin\Debu
 C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\obj\Debug\netcoreapp3.1\WaterBillAppCore.AssemblyInfoInputs.cache
 C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\obj\Debug\netcoreapp3.1\WaterBillAppCore.AssemblyInfo.cs
-C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\obj\Debug\netcoreapp3.1\WaterBillAppCore.csproj.CoreCompileInputs.cache
-C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\obj\Debug\netcoreapp3.1\WaterBillAppCore.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\obj\Debug\netcoreapp3.1\WaterBillAppCore.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\obj\Debug\netcoreapp3.1\WaterBillAppCore.RazorAssemblyInfo.cache
 C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\obj\Debug\netcoreapp3.1\WaterBillAppCore.RazorAssemblyInfo.cs
 C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\obj\Debug\netcoreapp3.1\WaterBillAppCore.TagHelpers.input.cache
@@ -237,3 +234,10 @@ C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\obj\Debu
 C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\obj\Debug\netcoreapp3.1\Razor\Views\QueryTypes\Details.cshtml.g.cs
 C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\obj\Debug\netcoreapp3.1\Razor\Views\QueryTypes\Edit.cshtml.g.cs
 C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\obj\Debug\netcoreapp3.1\Razor\Views\QueryTypes\Index.cshtml.g.cs
+C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\bin\Debug\netcoreapp3.1\MailKit.dll
+C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\bin\Debug\netcoreapp3.1\MimeKit.dll
+C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\bin\Debug\netcoreapp3.1\BouncyCastle.Crypto.dll
+C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\obj\Debug\netcoreapp3.1\WaterBillAppCore.csproj.CoreCompileInputs.cache
+C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\obj\Debug\netcoreapp3.1\WaterBillAppCore.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\obj\Debug\netcoreapp3.1\WaterBillAppCore.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\ndumiso.mthembu\source\repos\WaterBillAppCore\WaterBillAppCore\obj\Debug\netcoreapp3.1\Razor\Views\Query\UpdateStatus.cshtml.g.cs

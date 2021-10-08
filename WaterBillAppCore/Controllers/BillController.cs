@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using MimeKit;
 using WaterBillAppCore.Areas.Identity.Data;
 using WaterBillAppCore.Models;
 using WaterBillAppCore.ViewModel;
@@ -107,6 +109,7 @@ namespace WaterBillAppCore.Controllers
                 bill.CustomerEmail = user.UserEmail;
                 bill.CustomerPhone = user.PhoneNumber;
                 bill.CustomerId = user.UserId;
+                bill.AccountNumber = user.AccountNumber;
                 bill.PhotoUrl = fileName;
                 bill.BillStatus = "Pending Payment";
                 bill.Description = "Water usage bill";
@@ -115,7 +118,7 @@ namespace WaterBillAppCore.Controllers
                 var charge = _context.settings.FirstOrDefault().ChargeRate;
                 var usage = bill.CurrentReading - bill.PrevReading;
                 bill.Usage = usage;
-                bill.Amount = usage * charge;
+                bill= getTotalCharge(bill);
                 _context.Add(bill);
                 await _context.SaveChangesAsync();
 
@@ -209,5 +212,41 @@ namespace WaterBillAppCore.Controllers
         {
             return _context.bills.Any(e => e.BillId == id);
         }
+
+        private Bill getTotalCharge(Bill bill) {
+            double charge = 0;
+            var rate = _context.settings.FirstOrDefault(x=> bill.Usage >= x.RangeStart && bill.Usage <= x.RangeFinish);
+            if (rate != null) { 
+                charge = bill.Usage * rate.ChargeRate;
+            }
+
+            var vat = _context.vats.FirstOrDefault();
+            if (vat != null) {
+                bill.Amount = charge + charge * (vat.VatPercetage / 100.0);
+              
+            }
+            //var rate = rates.
+            return bill;
+        }
+
+        private void SendMail(string body, string subject)
+        {
+            var message = new MimeMessage();
+            var admin = _context.users.FirstOrDefault(x=>x.UserType == "Admin");
+            if (admin != null) {
+                message.From.Add(new MailboxAddress("Bill Created", "noreply@ipay.co.za"));
+                message.To.Add(new MailboxAddress("Bill Created", admin.UserEmail));
+                message.To.Add(new MailboxAddress("Bill Created", "mrnnmthembu@gmail.com"));
+                message.Subject = subject;
+                message.Body = new TextPart("plain") { Text = body};
+                using (var client = new SmtpClient()) {
+                    client.Connect("smtp@gmail.com", 587, false);
+                    client.Authenticate("noreply@ipay.co.za","v");
+                    client.Send(message);
+                        }
+            }
+          
+        }
+
     }
 }

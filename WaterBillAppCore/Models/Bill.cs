@@ -95,5 +95,15 @@ namespace WaterBillAppCore.Models
 
         [Column(TypeName = "nvarchar(3000)")]
         public string PhotoUrl { get; set; }
+
+
+        [Column(TypeName = "decimal(18, 2)")]
+        public double Vat { get; set; }
+
+        [Column(TypeName = "nvarchar(200)")]
+        [Display(Name = "Account Number")]
+        public string AccountNumber { get; set; }
+
+
     }
 }

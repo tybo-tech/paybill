@@ -19,7 +19,7 @@ namespace WaterBillAppCore.Models
         public double RangeStart { get; set; }
 
 
-        [Display(Name = "Range Start (kilolitre)")]
+        [Display(Name = "Range Finish (kilolitre)")]
         [Column(TypeName = "decimal(18, 2)")]
         public double RangeFinish { get; set; }
 

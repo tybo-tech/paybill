@@ -45,8 +45,14 @@ namespace WaterBillAppCore.Controllers
             {
                 return NotFound();
             }
-
-            return View(query);
+            var userId = _userManager.GetUserId(HttpContext.User);
+            AppUser appUser = _userManager.FindByIdAsync(userId).Result;
+            if (appUser != null)
+            {
+                User user = _context.users.FirstOrDefault(x => x.UserEmail == appUser.Email);
+                ViewBag.User = user;
+            }
+                return View(query);
         }
 
         // GET: Query/Create
@@ -106,6 +112,91 @@ namespace WaterBillAppCore.Controllers
             ViewBag.QueryTypes = new SelectList(queryTypes, "Name", "Name");
             return View(query);
         }
+
+
+        // GET: Query/Edit/5
+        public async Task<IActionResult> UpdateStatus(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var query = await _context.queries.FindAsync(id);
+            if (query == null)
+            {
+                return NotFound();
+            }
+
+            var queryTypes = await _context.querytypes.ToListAsync();
+            //QueryTypes = queryTypes.Select(x => x.Name).ToList();
+            ViewBag.QueryTypes = new SelectList(queryTypes, "Name", "Name");
+            return View(query);
+        }
+
+
+        // POST: Query/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateStatus(int id, Query query)
+        {
+            if (id != query.QueryId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var dbQuery = _context.queries.FirstOrDefault(x => x.QueryId == id);
+
+
+                    if (dbQuery.QueryStatus == "In Progress")
+                    {
+                        dbQuery.QueryStatus = "Closed";
+                        dbQuery.ClosedDate = DateTime.Now;
+
+                    }
+                    if (dbQuery.QueryStatus == "Accepted")
+                    {
+                        dbQuery.QueryStatus = "In Progress";
+                    }
+
+
+                  
+                    if (dbQuery.QueryStatus == "New") {
+                        dbQuery.QueryStatus = "Accepted";
+                        dbQuery.AcceptedDate = DateTime.Now;
+                    }
+
+                  
+                  
+
+
+                    dbQuery.Description = query.Description;
+                    dbQuery.Category = query.Category;
+                    _context.Update(dbQuery);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!QueryExists(query.QueryId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(query);
+        }
+
 
         // POST: Query/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 

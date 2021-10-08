@@ -1,0 +1,75 @@
+﻿@model WaterBillAppCore.Models.Query
+
+@{
+    ViewData["Title"] = "UpdateStatus";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>UpdateStatus</h1>
+
+<h4>Query</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="UpdateStatus">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+             <input   type="hidden" asp-for="QueryId" />
+            <div class="form-group">
+                 <input  type="hidden" type="hidden" asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                 <input  type="hidden" asp-for="Category" class="form-control" />
+                <span asp-validation-for="Category" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                 <input  type="hidden" type="hidden" asp-for="CustomerId" class="form-control" />
+                <span asp-validation-for="CustomerId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                 <input  type="hidden" asp-for="CustomerName" class="form-control" />
+                <span asp-validation-for="CustomerName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                 <input  type="hidden" asp-for="CustomerAddress" class="form-control" />
+                <span asp-validation-for="CustomerAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                 <input  type="hidden" asp-for="CustomerPhone" class="form-control" />
+                <span asp-validation-for="CustomerPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                 <input  type="hidden" asp-for="CustomerEmail" class="form-control" />
+                <span asp-validation-for="CustomerEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                 <input  type="hidden" asp-for="QueryStatus" class="form-control" />
+                <span asp-validation-for="QueryStatus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                 <input  type="hidden" asp-for="CreateDate" class="form-control" />
+                <span asp-validation-for="CreateDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                 <input  type="hidden" asp-for="AcceptedDate" class="form-control" />
+                <span asp-validation-for="AcceptedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                 <input  type="hidden" asp-for="ClosedDate" class="form-control" />
+                <span asp-validation-for="ClosedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                 <input  type="hidden" asp-for="LastModifiedDate" class="form-control" />
+                <span asp-validation-for="LastModifiedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                 <input  type="submit" value="Confirm" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

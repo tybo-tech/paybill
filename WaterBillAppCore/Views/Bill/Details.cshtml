@@ -1,122 +1,161 @@
 ﻿@model WaterBillAppCore.Models.Bill
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Confirm";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var imagePath = "~/Images/" + (Model.PhotoUrl ?? "noimage.jpg");
-
 }
 
-<h1>Details</h1>
-<div class="row">
-    <div class="col-sm-6">
-        <img src="@imagePath" class="img-fluid" asp-append-version="true" />
-    </div>
-</div>
+<h1>Confirm</h1>
+
 <div>
     <h4>Bill</h4>
     <hr />
-    <dl class="row">
 
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CustomerId)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CustomerId)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CustomerName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CustomerName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CustomerAddress)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CustomerAddress)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CustomerPhone)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CustomerPhone)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CustomerEmail)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CustomerEmail)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.BillNo)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.BillNo)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Amount)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Amount)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.AmountPaid)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.AmountPaid)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PaymentDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PaymentDate)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DueDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DueDate)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CreatedDate)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.LastModifiedDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.LastModifiedDate)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.BillStatus)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.BillStatus)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PrevReading)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PrevReading)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CurrentReading)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CurrentReading)
-        </dd>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card" style="height: 62vh">
+                <img src="@imagePath" class="img-fluid" asp-append-version="true" />
+                <div class="card-body">
+                    <h5 class="card-title">@Html.DisplayFor(model => model.Description)</h5>
+                    <p class="card-text">
+                        @Html.DisplayNameFor(model => model.BillId)
+                        <b>
+                            ... # @Html.DisplayFor(model => model.BillId)
+                        </b>
+
+                        <br />
+
+
+                        @Html.DisplayNameFor(model => model.AccountNumber)
+                        <b>
+                            ... # @Html.DisplayFor(model => model.AccountNumber)
+                        </b>
+
+                        <br />
+
+
+                        @Html.DisplayNameFor(model => model.AmountPaid)
+                        <b>
+                            ... R @Html.DisplayFor(model => model.AmountPaid)
+                        </b>
+
+                        <br />
+
+
+                        @Html.DisplayNameFor(model => model.CreatedDate)
+                        <b>
+                            ... @Html.DisplayFor(model => model.CreatedDate)
+                        </b>
+
+                        <br />
+
+                        @Html.DisplayNameFor(model => model.BillStatus)
+                        <b>
+                            ...  @Html.DisplayFor(model => model.BillStatus)
+                        </b>
+
+                        <br />
+
+                        @Html.DisplayNameFor(model => model.PrevReading)
+                        <b>
+                            ....   @Html.DisplayFor(model => model.PrevReading) kiloliter(s)
+                        </b>
+
+                        <br />
+
+
+                        @Html.DisplayNameFor(model => model.CurrentReading)
+                        <b>
+                            ....  @Html.DisplayFor(model => model.CurrentReading) kiloliter(s)
+                        </b>
+
+                        <br />
+                        <br />
+
+
+
+
+
+                        @Html.DisplayNameFor(model => model.Usage)
+                        <b>
+                            ...  @Html.DisplayFor(model => model.Usage) kiloliter(s)
+                        </b>
+
+                        <br />
+                        @Html.DisplayNameFor(model => model.Amount)
+                        <b>
+                            ... R @Html.DisplayFor(model => model.Amount)
+                        </b>
+
+                        <br />
+
+
+
+                        @Html.DisplayNameFor(model => model.Vat)
+                        <b>
+                            ... R @Html.DisplayFor(model => model.Vat)
+                        </b>
+
+                        <br />
+
+
+
+                    </p>
+                    @*<a href="#" class="btn btn-primary">Go somewhere</a>*@
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+    @*
+
+
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Usage)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Usage)
-        </dd>
+        </dd>*@
     </dl>
 </div>
+
+<form ngNoForm action="https://www.payfast.co.za/eng/process" method="POST">
+    <span>
+        <input type="hidden" name="merchant_id" value="18532075">
+        <input type="hidden" name="merchant_key" value="sfdfjuciknw4b">
+        <input type="hidden" name="return_url" value="http://localhost:63919/Bill/Confirm/@Model.BillId">
+        <input type="hidden" name="cancel_url" value="http://localhost:63919/Bill/Confirm/@Model.BillId">
+        <input type="hidden" name="notify_url" value="http://localhost:63919/Bill/Confirm/@Model.BillId">
+
+        <input type="hidden" name="name_first" value="@Model.CustomerName">
+        <input type="hidden" name="name_last" value="Payment">
+        <input type="hidden" name="email_address" value="@Model.CustomerEmail">
+        <input type="hidden" name="cell_number" value="@Model.CustomerPhone">
+
+
+        <input type="hidden" name="amount" value="@Model.Amount.ToString().Replace(",",".")">
+        <input type="hidden" name="item_name" value="@Model.Description">
+        <input type="hidden" name="item_description" value="@Model.Description">
+
+
+        <input type="hidden" name="email_confirmation" value="1">
+        <input type="hidden" name="confirmation_address" value="Info@vigortech.co.za">
+    </span>
+
+    <div class="form-group">
+        <button class="btn btn-primary" type="submit">
+            Proceed to online
+            payments
+        </button>
+
+    </div>
+</form>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.BillId">Edit</a> |
     <a asp-action="Index">Back to List</a>
