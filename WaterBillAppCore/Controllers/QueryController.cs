@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using WaterBillAppCore.Helpers;
 using WaterBillAppCore.Models;
 
 namespace WaterBillAppCore.Controllers
@@ -113,6 +114,25 @@ namespace WaterBillAppCore.Controllers
                 {
                     _context.queries.Add(query);
                     await _context.SaveChangesAsync();
+
+                    var users = new List<string>();
+                    foreach (var user in _userManager.Users.ToList())
+                    {
+
+                        if (await _userManager.IsInRoleAsync(user, "Agent"))
+                        {
+                            users.Add(user.Email);
+                        }
+                     
+                       
+                    }
+
+                    if (users.Any())
+                    {
+                        var emailHelper = new EmailHelper();
+                        emailHelper.SendMail($" <h3>{query.CustomerName} Create a new query of Category :{query.Category} </h3> <p>{query.Description}</p> ", "New Category"
+                            , users.ToArray());
+                    }
                     return RedirectToAction(nameof(Index));
                 }
                 catch (Exception e)

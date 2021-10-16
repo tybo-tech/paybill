@@ -54,7 +54,7 @@ namespace WaterBillAppCore.Controllers
                     var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var link = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, token = token }, Request.Scheme);
                     var emailHelper = new EmailHelper();
-                    emailHelper.SendMail($"Hi and Welcome to IPay, please click this link to confirm your email address {link}", "Confirm Email", user.Email);
+                    emailHelper.SendMail($"Hi and Welcome to IPay, please click this link to confirm your email address {link}", "Confirm Email", new string[] { user.Email });
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("index", "home");
                 }
@@ -106,7 +106,7 @@ namespace WaterBillAppCore.Controllers
                     var passwordResetLink = Url.Action("ResetPassword", "Account",
                             new { email = model.Email, token = token }, Request.Scheme);
                     var emailHelper = new EmailHelper();
-                    emailHelper.SendMail($"Hi {user.FirstName}, Welcome to Ipay, please  click this link to reset your password {passwordResetLink}", "Reset password", user.Email);
+                    emailHelper.SendMail($"Hi {user.FirstName}, Welcome to Ipay, please  click this link to reset your password {passwordResetLink}", "Reset password", new string[] { user.Email });
 
                     return RedirectToAction("EditUser", "Administration", new { id = user.Id });
 
@@ -182,7 +182,9 @@ namespace WaterBillAppCore.Controllers
                     var passwordResetLink = Url.Action("ResetPassword", "Account",
                             new { email = model.Email, token = token }, Request.Scheme);
                     var emailHelper = new EmailHelper();
-                    emailHelper.SendMail($"Hi {user.FirstName} We received a request to reset your password. If you didn't make this request, simply ignore this email, or click this link to reset your password {passwordResetLink}", "Reset password", user.Email);
+                    emailHelper.SendMail(
+                        $"Hi {user.FirstName} We received a request to reset your password. If you didn't make this request, simply ignore this email, or click this link to reset your password {passwordResetLink}",
+                        "Reset password", new string[] { user.Email });
                     return View("ForgotPasswordConfirmation");
                 }
                 return View("ForgotPasswordConfirmation");

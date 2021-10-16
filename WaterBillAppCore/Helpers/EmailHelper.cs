@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using MailKit.Net.Smtp;
 using MimeKit;
 
@@ -13,14 +14,23 @@ namespace WaterBillAppCore.Helpers
             //AdminEmail = "Tamaln0212@gmail.com";
             AdminEmail = "mrnnmthembu@gmail.com";
         }
-        public void SendMail(string body, string subject, string toEmail)
+        public void SendMail(string body, string subject, string[] emailaddresses)
         {
+            InternetAddressList list = new InternetAddressList();
             var message = new MimeMessage();
+            foreach (var emailaddress in emailaddresses) {
+                list.Add(new MailboxAddress(emailaddress));
+            }
             // Sender
             message.From.Add(new MailboxAddress("noreply@ipay.co.za", "noreply@ipay.co.za"));
-            message.To.Add(new MailboxAddress(subject, toEmail));
+            message.To.AddRange(list);
             message.Subject = subject;
-            message.Body = new TextPart("plain") { Text = body };
+
+            var bodyBuilder = new BodyBuilder();
+            bodyBuilder.HtmlBody = body;
+
+            message.Body = bodyBuilder.ToMessageBody();
+
             using (var client = new SmtpClient())
             {
 

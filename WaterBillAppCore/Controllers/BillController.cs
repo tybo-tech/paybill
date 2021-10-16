@@ -150,16 +150,16 @@ namespace WaterBillAppCore.Controllers
 
                 }
                 var id = _userManager.GetUserId(HttpContext.User);
-                var user = await _userManager.FindByIdAsync(id);
-                bill.CustomerName = user.FirstName;
+                var appUser = await _userManager.FindByIdAsync(id);
+                bill.CustomerName = appUser.FirstName;
                 bill.PrevReading = model.PrevReading;
                 bill.CurrentReading = model.CurrentReading;
-                bill.CustomerName = user.FirstName;
-                bill.CustomerAddress = user.HomeAddress;
-                bill.CustomerEmail = user.Email;
-                bill.CustomerPhone = user.PhoneNumber;
-                bill.CustomerId = user.Id;
-                bill.AccountNumber = user.AccountNumber;
+                bill.CustomerName = appUser.FirstName;
+                bill.CustomerAddress = appUser.HomeAddress;
+                bill.CustomerEmail = appUser.Email;
+                bill.CustomerPhone = appUser.PhoneNumber;
+                bill.CustomerId = appUser.Id;
+                bill.AccountNumber = appUser.AccountNumber;
                 bill.PhotoUrl = fileName;
                 bill.BillStatus = "Pending Payment";
                 bill.Description = "Water usage bill";
@@ -172,8 +172,25 @@ namespace WaterBillAppCore.Controllers
                 _context.Add(bill);
                 await _context.SaveChangesAsync();
 
-                var emailHelper = new EmailHelper();
-               emailHelper.SendMail($"New Bill of R{bill.Amount} Created ", "New Bill", emailHelper.AdminEmail);
+                var users = new List<string>();
+                foreach (var user in _userManager.Users.ToList())
+                {
+
+                    if (await _userManager.IsInRoleAsync(user, "Admin"))
+                    {
+                        users.Add(user.Email);
+                    }
+
+
+                }
+
+                if (users.Any())
+                {
+                    var emailHelper = new EmailHelper();
+                    emailHelper.SendMail($"{bill.CustomerName} Create a new Bill of R{bill.Amount}. ", "New Bill"
+                        , users.ToArray());
+                }
+ 
 
                 return Redirect("Confirm/" + bill.BillId);
             }
