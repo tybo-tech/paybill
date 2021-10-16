@@ -203,7 +203,8 @@ namespace WaterBillAppCore.Controllers
                 try
                 {
                     var dbQuery = _context.queries.FirstOrDefault(x => x.QueryId == id);
-
+                    var emailHelper = new EmailHelper();
+                    var body = $"Your Query has been closed by the agent";
 
                     if (dbQuery.QueryStatus == "In Progress")
                     {
@@ -214,12 +215,14 @@ namespace WaterBillAppCore.Controllers
                     if (dbQuery.QueryStatus == "Accepted")
                     {
                         dbQuery.QueryStatus = "In Progress";
+                         body = $"Your Query is In Progress";
                     }
 
 
                   
                     if (dbQuery.QueryStatus == "New") {
                         dbQuery.QueryStatus = "Accepted";
+                        body = $"Your Query is Accepted  by the agent";
                         dbQuery.AcceptedDate = DateTime.Now;
                     }
 
@@ -231,6 +234,11 @@ namespace WaterBillAppCore.Controllers
                     dbQuery.Category = query.Category;
                     _context.Update(dbQuery);
                     await _context.SaveChangesAsync();
+
+                    if(!string.IsNullOrEmpty(query.CustomerEmail))
+                         emailHelper.SendMail(body,
+                                    "Your Query Status Changed", new string[] { query.CustomerEmail });
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {

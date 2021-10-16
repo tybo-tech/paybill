@@ -8,12 +8,6 @@ namespace WaterBillAppCore.Helpers
 {
     public class EmailHelper
     {
-        public string AdminEmail { get; set; }
-        public EmailHelper()
-        {
-            //AdminEmail = "Tamaln0212@gmail.com";
-            AdminEmail = "mrnnmthembu@gmail.com";
-        }
         public void SendMail(string body, string subject, string[] emailaddresses)
         {
             InternetAddressList list = new InternetAddressList();

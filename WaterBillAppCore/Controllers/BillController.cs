@@ -37,6 +37,7 @@ namespace WaterBillAppCore.Controllers
         {
             ViewData["GetData"] = searchTerm;
             var bills = await _context.bills.ToListAsync();
+
             var id = _userManager.GetUserId(HttpContext.User);
            
             if (id != null)
