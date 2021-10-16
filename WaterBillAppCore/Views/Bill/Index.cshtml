@@ -1,4 +1,7 @@
-﻿@model IEnumerable<WaterBillAppCore.Models.Bill>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+@model IEnumerable<WaterBillAppCore.Models.Bill>
 
 @{
     ViewData["Title"] = "Index";
@@ -7,28 +10,70 @@
 
 <h1>Bills</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-
-
-
-<div class="list-group">
-    @foreach (var item in Model)
-    {
-
-    <a class="list-group-item list-group-item-action mb-4">
-        <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1">@Html.DisplayFor(modelItem => item.CustomerName)</h5>
-            <small class="text-muted">@Html.DisplayFor(modelItem => item.CreatedDate)</small>
+<form method="get" asp-action="Index">
+    <div class="input-group">
+        <input class="form-control" type="search" placeholder="Search here...." value="@ViewData["GetData"]" name="searchTerm">
+        <div class="input-group-append">
+            <button class="btn btn-primary" type="submit">Search</button>
         </div>
-        <p class="mb-1">Total: R @Html.DisplayFor(modelItem => item.Amount)</p>
-        <small class="text-muted">
-            <a asp-action="Edit" asp-route-id="@item.BillId">Edit</a> |
-            <a asp-action="Details" asp-route-id="@item.BillId">Details</a> |
-            <a asp-action="Delete" asp-route-id="@item.BillId">Delete</a>
-        </small>
-      
-    </a>
-    }
     </div>
+</form>
+
+
+@if (Model.Any())
+{
+
+    @if (SignInManager.IsSignedIn(User))
+    {
+        if (User.IsInRole("Customer"))
+        {
+            <a asp-action="Create"
+               class="btn btn-primary mb-3" style="width:auto">
+                Make A New Payment
+            </a>
+        }
+    }
+
+
+
+    foreach (var bill in Model)
+    {
+        <div class="card mb-3">
+            <div class="card-header">
+                @bill.CreatedDate,   <b> R @bill.Amount</b>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">@bill.CustomerName @bill.AccountNumber </h5>
+                <p>
+                    Bill Status:  <b> @bill.BillStatus</b>
+                </p>
+            </div>
+            <div class="card-footer">
+                <a asp-action="Confirm" asp-route-id="@bill.BillId" class="btn btn-info">Details</a>
+                @* <a asp-action="Edit"  asp-route-id="@bill.Id" class="btn btn-danger">Edit</a>*@
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="card">
+        <div class="card-header">
+            No payment history found.
+        </div>
+
+
+        <div class="card-body">
+            @if (SignInManager.IsSignedIn(User))
+            {
+                if (User.IsInRole("Customer"))
+                {
+                    <a asp-action="Create"
+                       class="btn btn-primary mb-3" style="width:auto">
+                        Make A New Payment
+                    </a>
+                }
+            }
+        </div>
+    </div>
+}

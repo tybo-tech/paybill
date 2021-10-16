@@ -1,127 +1,90 @@
-﻿@model WaterBillAppCore.Models.Query
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+
+@model WaterBillAppCore.Models.Query
 
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+    <h1>Query Details</h1>
 
-<div>
-    <h4>Query</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Category)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Category)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CustomerId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CustomerId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CustomerName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CustomerName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CustomerAddress)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CustomerAddress)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CustomerPhone)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CustomerPhone)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CustomerEmail)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CustomerEmail)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreateDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreateDate)
-        </dd>
-        @*<dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AcceptedDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AcceptedDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ClosedDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ClosedDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LastModifiedDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LastModifiedDate)
-        </dd>*@
+<div class="card mb-3">
+    <div class="card-header">
+        @Model.CustomerName <b>@Model.QueryStatus</b>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">@Model.Category  </h5>
+        <p>
+            @Model.Description
+        </p>
 
-    <dt>
-        @if (ViewBag.User != null && ViewBag.User.UserType == "Agent")
+        <p>
+            <span class="small">  @Html.DisplayNameFor(model => model.AccountNumber) </span>  <br>
+            @Model.AccountNumber
+            <hr>
+        </p>
+
+        <p>
+            <span class="small">  @Html.DisplayNameFor(model => model.CustomerAddress) </span>  <br>
+            @Model.CustomerAddress
+            @if (!string.IsNullOrEmpty(Model.AddressUrl))
+            {
+                <br />
+                <a class="btn btn-link" target="_blank" href="@Model.AddressUrl">Directions</a>
+            }
+
+            <hr>
+        </p>
+
+
+        <p>
+            <span class="small">  @Html.DisplayNameFor(model => model.CustomerEmail) </span>  <br>
+            @Model.CustomerEmail
+            <hr>
+        </p>
+
+        <p>
+            <span class="small">  @Html.DisplayNameFor(model => model.CustomerPhone) </span>  <br>
+            @Model.CustomerPhone
+            <hr>
+        </p>
+
+        <p>
+            <span class="small">  @Html.DisplayNameFor(model => model.CreateDate) </span>  <br>
+            @Model.CreateDate
+            <hr>
+        </p>
+    </div>
+    <div class="card-footer">
+
+
+        @if (SignInManager.IsSignedIn(User))
         {
-            @if (Model.QueryStatus == "New")
+            if (User.IsInRole("Agent"))
             {
-        <div class="form-group">
+                @if (Model.QueryStatus == "New")
+                {
 
-            <a asp-action="UpdateStatus" asp-route-id="@Model.QueryId">
-                <input type="button" value="Accept" class="btn btn-primary" />
-            </a> 
+                    <a asp-action="UpdateStatus" asp-route-id="@Model.QueryId" class="btn btn-info">Accept</a>
+                }
 
-        </div>
-            }
+                @if (Model.QueryStatus == "Accepted")
+                {
 
-            @if (Model.QueryStatus == "Accepted")
-            {
-
-    <div class="form-group">
-        <input type="submit" value="Navigate" class="btn btn-primary" />
-
-        <a asp-action="UpdateStatus" asp-route-id="@Model.QueryId">
-            <input type="submit" value="In Progress" class="btn btn-primary" />
-            </a>
-    </div>
-            }
+                    <a asp-action="UpdateStatus" asp-route-id="@Model.QueryId" class="btn btn-info">Directions</a>
+                    <a asp-action="UpdateStatus" asp-route-id="@Model.QueryId" class="btn btn-info">In Progress</a>
+                }
 
 
-            @if (Model.QueryStatus == "In Progress")
-            {
+                @if (Model.QueryStatus == "In Progress")
+                {
 
-    <div class="form-group">
-                 <a asp-action="UpdateStatus" asp-route-id="@Model.QueryId">
-            <input type="submit" value="Close Query" class="btn btn-primary" />
-            </a>
-    </div>
+                    <a asp-action="UpdateStatus" asp-route-id="@Model.QueryId" class="btn btn-info">Close Query</a>
+                }
             }
         }
-
-    </dt>
-    </dl>
-
-
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.QueryId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    </div>
 </div>

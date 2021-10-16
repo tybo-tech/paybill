@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using WaterBillAppCore.Areas.Identity.Data;
 using WaterBillAppCore.Models;
 
 namespace WaterBillAppCore.Controllers
@@ -26,9 +25,34 @@ namespace WaterBillAppCore.Controllers
         }
 
         // GET: Query
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchTerm)
         {
-            return View(await _context.queries.ToListAsync());
+            ViewData["GetData"] = searchTerm;
+            var results = await _context.queries.ToListAsync();
+            var id = _userManager.GetUserId(HttpContext.User);
+            if (id != null)
+            {
+                AppUser appUser = _userManager.FindByIdAsync(id).Result;
+                if (null != appUser)
+                {
+                    if (await _userManager.IsInRoleAsync(appUser, "Customer"))
+                        results = results.Where(x => x.CustomerId == id).ToList();
+                }
+            }
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                searchTerm = searchTerm.Trim();
+                results = results
+                        .Where(x => (x.CustomerAddress ?? "").ToLower().Contains(searchTerm.ToLower())
+                        || (x.AccountNumber ?? "").ToLower().Contains(searchTerm.ToLower())
+                        || (x.CustomerName ?? "").ToLower().Contains(searchTerm.ToLower())
+                        || (x.CustomerEmail ?? "").ToLower().Contains(searchTerm.ToLower())
+                        || (x.Description ?? "").ToLower().Contains(searchTerm.ToLower())
+                        || (x.Category ?? "").ToLower().Contains(searchTerm.ToLower())
+                        ).ToList();
+                        ;
+            }
+            return View(results);
         }
 
         // GET: Query/Details/5
@@ -49,8 +73,7 @@ namespace WaterBillAppCore.Controllers
             AppUser appUser = _userManager.FindByIdAsync(userId).Result;
             if (appUser != null)
             {
-                User user = _context.users.FirstOrDefault(x => x.UserEmail == appUser.Email);
-                ViewBag.User = user;
+                ViewBag.User = appUser;
             }
                 return View(query);
         }
@@ -67,28 +90,36 @@ namespace WaterBillAppCore.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("QueryId,Description,Category,CustomerId,CustomerName,CustomerAddress,CustomerPhone,CustomerEmail,CreateDate,AcceptedDate,ClosedDate,LastModifiedDate")] Query query)
+        public async Task<IActionResult> Create(Query query)
         {
             if (ModelState.IsValid)
             {
                 var id = _userManager.GetUserId(HttpContext.User);
                 AppUser appUser = _userManager.FindByIdAsync(id).Result;
-                User user = _context.users.FirstOrDefault(x => x.UserEmail == appUser.Email);
-                query.CustomerName = user.FirstName;
-                query.CustomerName = user.FirstName;
-                query.CustomerAddress = user.HomeAddress;
-                query.CustomerEmail = user.UserEmail;
-                query.CustomerPhone = user.PhoneNumber;
-                query.CustomerId = user.UserId;
+                query.CustomerName = appUser.FirstName;
+                query.CustomerName = appUser.FirstName;
+                query.CustomerAddress = appUser.HomeAddress;
+                query.CustomerEmail = appUser.Email;
+                query.AccountNumber = appUser.AccountNumber;
+                query.CustomerPhone = appUser.PhoneNumber;
+                query.CustomerId = appUser.Id;
+                query.AddressUrl = appUser.AddressUrl;
                 query.QueryStatus = "New";
                 query.CreateDate = DateTime.Now;
                 query.AcceptedDate = DateTime.Now;
                 query.ClosedDate = DateTime.Now;
                 query.LastModifiedDate = DateTime.Now;
-                _context.Add(query);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    _context.queries.Add(query);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception e)
+                {
+
+                    throw;
+                }
             }
             return View(query);
         }

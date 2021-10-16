@@ -1,0 +1,53 @@
+﻿@model IEnumerable<WaterBillAppCore.Models.AppUser>
+
+@{
+    ViewData["Title"] = "System Users";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form method="get" asp-action="ListUsers">
+    <div class="input-group">
+        <input class="form-control" type="search" placeholder="Search here...." value="@ViewData["GetData"]" name="searchTerm">
+        <div class="input-group-append">
+            <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+    </div>
+</form>
+
+
+@if (Model.Any())
+{
+    <a asp-action="AddUser" asp-controller="Account"
+       class="btn btn-primary mb-3" style="width:auto">
+        Add new user
+    </a>
+
+
+    foreach (var user in Model)
+    {
+        <div class="card mb-3">
+            <div class="card-header">
+                @user.UserName
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">@user.FirstName  @user.LastName </h5>
+            </div>
+            <div class="card-footer">
+                <a asp-action="EditUser" asp-controller="Administration" asp-route-id="@user.Id" class="btn btn-info">Edit</a>
+                <a asp-action="DeleteUser" asp-controller="Administration" asp-route-id="@user.Id" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="card">
+        <div class="card-header">
+            No users found
+        </div>
+
+        <div class="card-body">
+
+        </div>
+    </div>
+}

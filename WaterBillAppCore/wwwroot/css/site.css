@@ -13,19 +13,16 @@ a {
 }
 
 .btn-primary {
-    color: #fff;
     background-color: #27ae60;
-    border-color: #1861ac;
-    padding: 1em 3em !important;
+}
+.btn-danger{
+    color: #fff !important;
 }
 
-input{
-    padding: 1em !important;
-}
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 /* Sticky footer styles
@@ -149,4 +146,8 @@ a:hover {
 
 .cursor-pointer {
     cursor: pointer;
+}
+
+.nav-item a{
+    font-size: .85em;
 }

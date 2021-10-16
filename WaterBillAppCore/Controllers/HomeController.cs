@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using WaterBillAppCore.Areas.Identity.Data;
 using WaterBillAppCore.Models;
 
 namespace WaterBillAppCore.Controllers
@@ -28,39 +27,23 @@ namespace WaterBillAppCore.Controllers
 
         [AllowAnonymous]
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var id = _userManager.GetUserId(HttpContext.User);
             if (id != null)
             {
                 AppUser appUser = _userManager.FindByIdAsync(id).Result;
-                if (appUser != null) { 
-                User user = _context.users.FirstOrDefault(x=>x.UserEmail == appUser.Email);
-                    if (user != null)
-                    {
-                        return Redirect("Home/" + user.UserType);
-                    }
-                    else
-                    {
-                        //Create a new user.
-                        user = new User()
-                        {
-                            FirstName = appUser.FirstName,
-                            LastName = appUser.LastName,
-                            UserEmail = appUser.Email,
-                            UserType = "Customer",
-                            UserStatus = "Active",
-                            HomeAddress = "",
-                            Password = "",
-                            CreatedDate = DateTime.Now.ToString(),
-                            LastModifiedDate = DateTime.Now.ToString()
-                        };
-                        _context.users.Add(user);
-                        _context.SaveChanges();
-                        return Redirect("Home/" + user.UserType);
-                    }
+                if (null != appUser)
+                {
+                    if (await _userManager.IsInRoleAsync(appUser, "Admin"))
+                         return Redirect("Home/Admin");
+
+                    if (await _userManager.IsInRoleAsync(appUser, "Customer"))
+                        return Redirect("Home/Customer");
+
+                    if (await _userManager.IsInRoleAsync(appUser, "Agent"))
+                        return Redirect("Home/Agent");
                 }
-               
             }
             return View();
         }

@@ -150,7 +150,7 @@ namespace WaterBillAppCore.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("WaterBillAppCore.Areas.Identity.Data.AppUser", b =>
+            modelBuilder.Entity("WaterBillAppCore.Models.AppUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -158,9 +158,18 @@ namespace WaterBillAppCore.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("AccountNumber")
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("AddressUrl")
+                        .HasColumnType("nvarchar(500)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CreatedDate")
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -172,6 +181,12 @@ namespace WaterBillAppCore.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<string>("HomeAddress")
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("LastModifiedDate")
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(100)");
 
@@ -181,6 +196,9 @@ namespace WaterBillAppCore.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<string>("MeterNo")
+                        .HasColumnType("nvarchar(200)");
+
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -188,6 +206,9 @@ namespace WaterBillAppCore.Migrations
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
@@ -207,6 +228,9 @@ namespace WaterBillAppCore.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("UserStatus")
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -250,13 +274,13 @@ namespace WaterBillAppCore.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("CustomerAddress")
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(2000)");
 
                     b.Property<string>("CustomerEmail")
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
+                    b.Property<string>("CustomerId")
+                        .HasColumnType("nvarchar(300)");
 
                     b.Property<string>("CustomerName")
                         .HasColumnType("nvarchar(50)");
@@ -333,8 +357,14 @@ namespace WaterBillAppCore.Migrations
                     b.Property<DateTime>("AcceptedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Category")
+                    b.Property<string>("AccountNumber")
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("AddressUrl")
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Category")
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("ClosedDate")
                         .HasColumnType("datetime2");
@@ -343,16 +373,16 @@ namespace WaterBillAppCore.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CustomerAddress")
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(2000)");
 
                     b.Property<string>("CustomerEmail")
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
+                    b.Property<string>("CustomerId")
+                        .HasColumnType("nvarchar(300)");
 
                     b.Property<string>("CustomerName")
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("CustomerPhone")
                         .HasColumnType("nvarchar(50)");
@@ -407,73 +437,6 @@ namespace WaterBillAppCore.Migrations
                     b.ToTable("settings");
                 });
 
-            modelBuilder.Entity("WaterBillAppCore.Models.User", b =>
-                {
-                    b.Property<int>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("AccountNumber")
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("CreatedDate")
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("HomeAddress")
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("LastModifiedDate")
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("MeterNo")
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("Password")
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(15)");
-
-                    b.Property<string>("UserAddres")
-                        .HasColumnType("nvarchar(2000)");
-
-                    b.Property<string>("UserEmail")
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("UserStatus")
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("UserType")
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("UserId");
-
-                    b.ToTable("users");
-                });
-
-            modelBuilder.Entity("WaterBillAppCore.Models.UserType", b =>
-                {
-                    b.Property<int>("QueryTypeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(200)");
-
-                    b.HasKey("QueryTypeId");
-
-                    b.ToTable("usertypes");
-                });
-
             modelBuilder.Entity("WaterBillAppCore.Models.Vat", b =>
                 {
                     b.Property<int>("SettingId")
@@ -500,7 +463,7 @@ namespace WaterBillAppCore.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("WaterBillAppCore.Areas.Identity.Data.AppUser", null)
+                    b.HasOne("WaterBillAppCore.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -509,7 +472,7 @@ namespace WaterBillAppCore.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("WaterBillAppCore.Areas.Identity.Data.AppUser", null)
+                    b.HasOne("WaterBillAppCore.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -524,7 +487,7 @@ namespace WaterBillAppCore.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WaterBillAppCore.Areas.Identity.Data.AppUser", null)
+                    b.HasOne("WaterBillAppCore.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -533,7 +496,7 @@ namespace WaterBillAppCore.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("WaterBillAppCore.Areas.Identity.Data.AppUser", null)
+                    b.HasOne("WaterBillAppCore.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

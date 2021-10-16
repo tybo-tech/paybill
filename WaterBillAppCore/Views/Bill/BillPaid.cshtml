@@ -1,0 +1,225 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+@model WaterBillAppCore.Models.Bill
+
+@{
+    ViewData["Title"] = "Confirm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var imagePath = "~/Images/noimage.jpg";
+    if (!string.IsNullOrEmpty(Model.PhotoUrl))
+        imagePath = "~/Images/" + Model.PhotoUrl;
+   
+}
+
+<h4>Bill Details</h4>
+
+
+
+<div class="card mb-3">
+    <div class="card-header">
+        # @Html.DisplayFor(model => model.BillId) <b>R @Model.Amount @Model.BillStatus</b>
+    </div>
+
+    <div class="card-body">
+        <h5 class="card-title">@Model.Description  </h5>
+
+
+        <p>
+            <span class="small">  @Html.DisplayNameFor(model => model.Usage) </span>  <br>
+            @Model.Usage
+            <hr>
+        </p>
+
+        <p>
+            <span class="small">  @Html.DisplayNameFor(model => model.AccountNumber) </span>  <br>
+            @Model.AccountNumber
+            <hr>
+        </p>
+
+        <p>
+            <span class="small">  @Html.DisplayNameFor(model => model.CustomerAddress) </span>  <br>
+            @Model.CustomerAddress
+            <hr>
+        </p>
+
+
+        <p>
+            <span class="small">  @Html.DisplayNameFor(model => model.CustomerEmail) </span>  <br>
+            @Model.CustomerEmail
+            <hr>
+        </p>
+
+        <p>
+            <span class="small">  @Html.DisplayNameFor(model => model.CustomerPhone) </span>  <br>
+            @Model.CustomerPhone
+            <hr>
+        </p>
+
+        <p>
+            <span class="small">  @Html.DisplayNameFor(model => model.CreatedDate) </span>  <br>
+            @Model.CreatedDate
+            <hr>
+        </p>
+
+
+    </div>
+
+    <div class="card-img">
+        <img src="@imagePath" class="img-fluid" asp-append-version="true" />
+    </div>
+    <div class="card-footer">
+
+
+        @if (SignInManager.IsSignedIn(User))
+        {
+            if (User.IsInRole("Customer") && @Model.BillStatus == "Pending Payment")
+            {
+                <form ngNoForm action="https://www.payfast.co.za/eng/process" method="POST">
+                    <span>
+                        <input type="hidden" name="merchant_id" value="18532075">
+                        <input type="hidden" name="merchant_key" value="sfdfjuciknw4b">
+                        <input type="hidden" name="return_url" value="http://localhost:63919/Bill/Confirm/@Model.BillId">
+                        <input type="hidden" name="cancel_url" value="http://localhost:63919/Bill/Confirm/@Model.BillId">
+                        <input type="hidden" name="notify_url" value="http://localhost:63919/Bill/Confirm/@Model.BillId">
+
+                        <input type="hidden" name="name_first" value="@Model.CustomerName">
+                        <input type="hidden" name="name_last" value="Payment">
+                        <input type="hidden" name="email_address" value="@Model.CustomerEmail">
+                        <input type="hidden" name="cell_number" value="@Model.CustomerPhone">
+
+
+                        <input type="hidden" name="amount" value="@Model.Amount.ToString().Replace(",",".")">
+                        <input type="hidden" name="item_name" value="@Model.Description">
+                        <input type="hidden" name="item_description" value="@Model.Description">
+
+
+                        <input type="hidden" name="email_confirmation" value="1">
+                        <input type="hidden" name="confirmation_address" value="Info@vigortech.co.za">
+                    </span>
+
+                    <div class="form-group">
+                        <button class="btn btn-primary" type="submit">
+                            Proceed to online
+                            payments
+                        </button>
+
+                    </div>
+                </form>
+
+            }
+        }
+    </div>
+</div>
+
+
+@*<div>
+
+
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card" style="height: 62vh">
+                    <img src="@imagePath" class="img-fluid" asp-append-version="true" />
+                    <div class="card-body">
+                        <h5 class="card-title">@Html.DisplayFor(model => model.Description)</h5>
+                        <p class="card-text">
+                            @Html.DisplayNameFor(model => model.BillId)
+                            <b>
+                                ... # @Html.DisplayFor(model => model.BillId)
+                            </b>
+
+                            <br />
+
+
+                            @Html.DisplayNameFor(model => model.AccountNumber)
+                            <b>
+                                ... # @Html.DisplayFor(model => model.AccountNumber)
+                            </b>
+
+                            <br />
+
+
+                            @Html.DisplayNameFor(model => model.AmountPaid)
+                            <b>
+                                ... R @Html.DisplayFor(model => model.AmountPaid)
+                            </b>
+
+                            <br />
+
+
+                            @Html.DisplayNameFor(model => model.CreatedDate)
+                            <b>
+                                ... @Html.DisplayFor(model => model.CreatedDate)
+                            </b>
+
+                            <br />
+
+                            @Html.DisplayNameFor(model => model.BillStatus)
+                            <b>
+                                ...  @Html.DisplayFor(model => model.BillStatus)
+                            </b>
+
+                            <br />
+
+                            @Html.DisplayNameFor(model => model.PrevReading)
+                            <b>
+                                ....   @Html.DisplayFor(model => model.PrevReading) kiloliter(s)
+                            </b>
+
+                            <br />
+
+
+                            @Html.DisplayNameFor(model => model.CurrentReading)
+                            <b>
+                                ....  @Html.DisplayFor(model => model.CurrentReading) kiloliter(s)
+                            </b>
+
+                            <br />
+                            <br />
+
+
+
+
+
+                            @Html.DisplayNameFor(model => model.Usage)
+                            <b>
+                                ...  @Html.DisplayFor(model => model.Usage) kiloliter(s)
+                            </b>
+
+                            <br />
+                            @Html.DisplayNameFor(model => model.Amount)
+                            <b>
+                                ... R @Html.DisplayFor(model => model.Amount)
+                            </b>
+
+                            <br />
+
+
+
+                            @Html.DisplayNameFor(model => model.Vat)
+                            <b>
+                                ... R @Html.DisplayFor(model => model.Vat)
+                            </b>
+
+                            <br />
+
+
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+
+        </dl>
+    </div>
+
+ 
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.BillId">Edit</a> |
+        <a asp-action="Index">Back to List</a>
+    </div>*@

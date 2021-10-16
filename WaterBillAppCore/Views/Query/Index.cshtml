@@ -1,96 +1,178 @@
-﻿@model IEnumerable<WaterBillAppCore.Models.Query>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+@model IEnumerable<WaterBillAppCore.Models.Query>
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <h1>Queries</h1>
+<h1>Queries</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.QueryStatus)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CustomerName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CustomerAddress)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CustomerPhone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CustomerEmail)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreateDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AcceptedDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ClosedDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastModifiedDate)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.QueryStatus)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CustomerName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CustomerAddress)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CustomerPhone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CustomerEmail)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreateDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AcceptedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClosedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastModifiedDate)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.QueryId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.QueryId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.QueryId">Delete</a>
-            </td>
-        </tr>
+<form method="get" asp-action="Index">
+    <div class="input-group">
+        <input class="form-control" type="search" placeholder="Search here...." value="@ViewData["GetData"]" name="searchTerm">
+        <div class="input-group-append">
+            <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+    </div>
+</form>
+
+
+@if (Model.Any())
+{
+
+    @if (SignInManager.IsSignedIn(User))
+    {
+        if (User.IsInRole("Customer"))
+        {
+            <a asp-action="Create"
+               class="btn btn-primary mb-3" style="width:auto">
+                Create Query
+            </a>
+        }
+    }
+
+    foreach (var item in Model)
+    {
+        <div class="card mb-3">
+            <div class="card-header">
+                @item.CustomerName <b>@item.QueryStatus</b>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">@item.Category  </h5>
+                <p>
+                    @item.Description
+                </p>
+            </div>
+            <div class="card-footer">
+                <a asp-action="Details" asp-route-id="@item.QueryId" class="btn btn-info">Details</a>
+                @* <a asp-action="Edit"  asp-route-id="@bill.Id" class="btn btn-danger">Edit</a>*@
+            </div>
+        </div>
+    }
 }
-    </tbody>
-</table>
+else
+{
+    <div class="card">
+        <div class="card-header">
+            No queries found.
+        </div>
+
+
+        <div class="card-body">
+            @if (SignInManager.IsSignedIn(User))
+            {
+                if (User.IsInRole("Customer"))
+                {
+                    <a asp-action="Create"
+                       class="btn btn-primary mb-3" style="width:auto">
+                        Create your first query.
+                    </a>
+                }
+            }
+        </div>
+    </div>
+}
+
+
+
+
+
+@*@model IEnumerable<WaterBillAppCore.Models.Query>
+
+    @{
+        ViewData["Title"] = "Index";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+        <h1>Queries</h1>
+
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Category)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.QueryStatus)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CustomerName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CustomerAddress)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CustomerPhone)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CustomerEmail)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreateDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AcceptedDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ClosedDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LastModifiedDate)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QueryStatus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerPhone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerEmail)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreateDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AcceptedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClosedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastModifiedDate)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.QueryId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.QueryId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.QueryId">Delete</a>
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>*@

@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityRole>
+
+@{
+    ViewData["Title"] = "System Users";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (Model.Any())
+{
+    <a asp-action="CreateRole" asp-controller="Administration"
+       class="btn btn-primary mb-3" style="width:auto">
+        Add new role
+    </a>
+
+    foreach (var role in Model)
+    {
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">@role.Name</h5>
+            </div>
+            <div class="card-footer">
+                <a  class="btn btn-info" asp-action="EditRole" asp-controller="Administration" asp-route-id="@role.Id">Edit</a>
+                <a  class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="card">
+        <div class="card-header">
+            No roles found
+        </div>
+
+        <div class="card-body">
+            <a asp-action="CreateRole" asp-controller="Administration"
+               class="btn btn-primary mb-3" style="width:auto">
+                Add new role
+            </a>
+        </div>
+    </div>
+}

@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MimeKit;
-using WaterBillAppCore.Areas.Identity.Data;
+using WaterBillAppCore.Helpers;
 using WaterBillAppCore.Models;
 using WaterBillAppCore.ViewModel;
 
@@ -32,10 +32,38 @@ namespace WaterBillAppCore.Controllers
         }
 
         // GET: Bill
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public async Task<IActionResult> Index(string searchTerm)
         {
-            return View(await _context.bills.ToListAsync());
+            ViewData["GetData"] = searchTerm;
+            var bills = await _context.bills.ToListAsync();
+            var id = _userManager.GetUserId(HttpContext.User);
+           
+            if (id != null)
+            {
+                AppUser appUser = _userManager.FindByIdAsync(id).Result;
+                if (null != appUser)
+                {
+                    if (await _userManager.IsInRoleAsync(appUser, "Customer"))
+                        bills = bills.Where(x => x.CustomerId == id).ToList();
+                }
+            }
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                searchTerm = searchTerm.Trim();
+                bills = bills
+                        .Where(x => (x.CustomerName ?? "").ToLower().Contains(searchTerm.ToLower())
+                        || (x.AccountNumber ?? "").ToLower().Contains(searchTerm.ToLower())
+                        || (x.CustomerAddress ?? "").ToLower().Contains(searchTerm.ToLower())
+                        || (x.CustomerEmail ?? "").ToLower().Contains(searchTerm.ToLower())
+                        )
+                        .ToList();
+            }
+            return View(bills);
         }
+
+
 
         // GET: Bill/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -77,6 +105,29 @@ namespace WaterBillAppCore.Controllers
             }
 
             return View(bill);
+        }   
+        
+        // GET: Bill/Create
+        public async Task<IActionResult> BillPaid(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var bill = await _context.bills
+                .FirstOrDefaultAsync(m => m.BillId == id);
+            if (bill == null)
+            {
+                return NotFound();
+            }
+
+            bill.AmountPaid = bill.Amount;
+            bill.BillStatus = "Paid";
+            bill.LastModifiedDate = DateTime.Now;
+            _context.bills.Update(bill);
+            _context.SaveChanges();
+            return View(bill);
         }
 
         // POST: Bill/Create
@@ -99,16 +150,15 @@ namespace WaterBillAppCore.Controllers
 
                 }
                 var id = _userManager.GetUserId(HttpContext.User);
-                AppUser appUser = _userManager.FindByIdAsync(id).Result;
-                User user = _context.users.FirstOrDefault(x => x.UserEmail == appUser.Email);
+                var user = await _userManager.FindByIdAsync(id);
                 bill.CustomerName = user.FirstName;
                 bill.PrevReading = model.PrevReading;
                 bill.CurrentReading = model.CurrentReading;
                 bill.CustomerName = user.FirstName;
                 bill.CustomerAddress = user.HomeAddress;
-                bill.CustomerEmail = user.UserEmail;
+                bill.CustomerEmail = user.Email;
                 bill.CustomerPhone = user.PhoneNumber;
-                bill.CustomerId = user.UserId;
+                bill.CustomerId = user.Id;
                 bill.AccountNumber = user.AccountNumber;
                 bill.PhotoUrl = fileName;
                 bill.BillStatus = "Pending Payment";
@@ -121,6 +171,9 @@ namespace WaterBillAppCore.Controllers
                 bill= getTotalCharge(bill);
                 _context.Add(bill);
                 await _context.SaveChangesAsync();
+
+                var emailHelper = new EmailHelper();
+               emailHelper.SendMail($"New Bill of R{bill.Amount} Created ", "New Bill", emailHelper.AdminEmail);
 
                 return Redirect("Confirm/" + bill.BillId);
             }
@@ -229,24 +282,7 @@ namespace WaterBillAppCore.Controllers
             return bill;
         }
 
-        private void SendMail(string body, string subject)
-        {
-            var message = new MimeMessage();
-            var admin = _context.users.FirstOrDefault(x=>x.UserType == "Admin");
-            if (admin != null) {
-                message.From.Add(new MailboxAddress("Bill Created", "noreply@ipay.co.za"));
-                message.To.Add(new MailboxAddress("Bill Created", admin.UserEmail));
-                message.To.Add(new MailboxAddress("Bill Created", "mrnnmthembu@gmail.com"));
-                message.Subject = subject;
-                message.Body = new TextPart("plain") { Text = body};
-                using (var client = new SmtpClient()) {
-                    client.Connect("smtp@gmail.com", 587, false);
-                    client.Authenticate("noreply@ipay.co.za","v");
-                    client.Send(message);
-                        }
-            }
-          
-        }
+  
 
     }
 }

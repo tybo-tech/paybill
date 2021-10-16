@@ -12,7 +12,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Identity;
-using WaterBillAppCore.Areas.Identity.Data;
 
 namespace WaterBillAppCore
 {
@@ -31,7 +30,12 @@ namespace WaterBillAppCore
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddDbContext<WaterAppContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DbConnection")));
-            services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<WaterAppContext>();
+
+            services.AddIdentity<AppUser, IdentityRole>()
+                .AddEntityFrameworkStores<WaterAppContext>()
+                .AddDefaultTokenProviders()
+                ;
+
             services.AddMvcCore(options => {
                 var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
                 options.Filters.Add(new AuthorizeFilter(policy));

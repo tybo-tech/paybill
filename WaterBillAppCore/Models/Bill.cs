@@ -15,15 +15,15 @@ namespace WaterBillAppCore.Models
         public int BillId { get; set; }
 
 
-        [Column(TypeName =  "int")]
-        public int CustomerId { get; set; }
+        [Column(TypeName = "nvarchar(300)")]
+        public string CustomerId { get; set; }
 
 
         [Column(TypeName = "nvarchar(50)")]
         public string CustomerName { get; set; }
 
 
-        [Column(TypeName =  "nvarchar(50)")]
+        [Column(TypeName =  "nvarchar(2000)")]
         public string CustomerAddress { get; set; }
 
 
