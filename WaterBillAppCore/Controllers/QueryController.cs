@@ -99,7 +99,6 @@ namespace WaterBillAppCore.Controllers
                 AppUser appUser = _userManager.FindByIdAsync(id).Result;
                 query.CustomerName = appUser.FirstName;
                 query.CustomerName = appUser.FirstName;
-                query.CustomerAddress = appUser.HomeAddress;
                 query.CustomerEmail = appUser.Email;
                 query.AccountNumber = appUser.AccountNumber;
                 query.CustomerPhone = appUser.PhoneNumber;
